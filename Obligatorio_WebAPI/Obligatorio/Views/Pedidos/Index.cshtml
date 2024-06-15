@@ -1,0 +1,69 @@
+﻿@model IEnumerable<DataTransferObjects.PedidoNoEntregadoDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div>
+    <a asp-action="Create">Crear Pedido</a>
+</div>
+<div>
+    <a asp-action="BuscarPedidos">Buscar Pedidos</a>
+</div>
+
+<span>@ViewBag.ErrorMsg</span>
+
+<h3>Pedidos pendientes</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaEntrega)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonSocialCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recargo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Iva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaEntrega)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RazonSocialCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recargo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Iva)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.ActionLink("Agregar Artículo", "AgregarArticulo", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DataTransferObjects.PedidoNoEntregadoDTO>
+
+@{
+    ViewData["Title"] = "Anular Pedidos";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="BuscarPedidos">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Fecha de emisión:</label>
+                <input type="date" name="fecha" class="form-control" value="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<br>
+
+@if(Model != null) {
+    @if (Model.Count() > 0) {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaEntrega)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RazonSocialCliente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Total)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaEntrega)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RazonSocialCliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Anular Pedido", "AnularPedidos", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } else {
+        <span>@ViewBag.ErrorMsg</span>
+    }
+}

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DataTransferObjects.ClienteDTO>
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div>
+    <a asp-action="BuscarClientes">Buscar Por Razon Social</a>
+</div>
+<div>
+    <a asp-action="BuscarPorMonto">Buscar Por Monto de Pedido</a>
+</div>
+<span>@ViewBag.ErrorMsg</span>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonSocial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RazonSocial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

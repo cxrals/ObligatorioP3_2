@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+<div class="container">
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> Obligatorio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse d-sm-inline-flex">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+
+            <!-- Menú de Administrador -->
+            @if (Context.Session.GetString("TIPOUSUARIO") == "Administrador") {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Pedidos" asp-action="Index">Pedidos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Articulos" asp-action="Index">Articulos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                </li>
+            }
+        </ul>
+
+        <!-- Menú de Sesión -->
+        <ul class="navbar-nav flex-grow-1 justify-content-end">
+            @if (Context.Session.GetString("TIPOUSUARIO") == null) {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Usuarios" asp-action="Ingresar">Ingresar</a>
+                </li>
+            } else {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
