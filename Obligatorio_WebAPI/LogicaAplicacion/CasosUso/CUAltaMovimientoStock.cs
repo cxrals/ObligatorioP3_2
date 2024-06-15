@@ -31,6 +31,7 @@ namespace LogicaAplicacion.CasosUso {
             nuevoMovimiento.Articulo = articulo;
             nuevoMovimiento.TipoMovimiento = tm;
             nuevoMovimiento.Usuario = u;
+            nuevoMovimiento.Cantidad = obj.Cantidad;
 
             // chequear que cantidaad < parametro
             // else tirar DatosInvalidosEx
