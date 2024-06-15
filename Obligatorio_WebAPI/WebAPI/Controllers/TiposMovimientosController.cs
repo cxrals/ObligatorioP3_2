@@ -41,7 +41,7 @@ namespace WebAPI.Controllers {
         // GET api/<TiposMovimientosController>/5
         [HttpGet("{id}", Name = "BuscarPorIdTM")]
         public IActionResult Get(int id) {
-            if (id <= 0) return BadRequest("El id deber ser positivo");
+            if (id <= 0) return BadRequest("El id debe ser positivo");
             TipoMovimientoDTO tm = CUBuscarPorIdTM.BuscarPorId(id);
             if (tm == null) return NotFound("El tipo de movimiento no existe");
             return Ok(tm);

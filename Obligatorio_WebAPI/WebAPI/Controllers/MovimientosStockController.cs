@@ -46,7 +46,7 @@ namespace WebAPI.Controllers {
         public IActionResult Get(int id) {
             if (id <= 0) return BadRequest("El id deber ser positivo");
             MovimientoStockDTO msDTO = CUBuscarPorIdMS.BuscarPorId(id);
-            if (msDTO == null) return NotFound("El tipo de movimiento no existe");
+            if (msDTO == null) return NotFound("El movimiento de stock no existe");
             return Ok(msDTO);
         }
 
