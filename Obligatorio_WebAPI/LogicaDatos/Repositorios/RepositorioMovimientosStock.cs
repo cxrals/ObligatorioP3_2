@@ -32,13 +32,5 @@ namespace LogicaDatos.Repositorios {
             .Include(ms => ms.Usuario)
             .ToList();
         }
-
-        // no implementar 
-        public void Update(MovimientoStock obj) {
-            throw new NotImplementedException();
-        }
-        public void Delete(int id) {
-            throw new NotImplementedException();
-        }
     }
 }
