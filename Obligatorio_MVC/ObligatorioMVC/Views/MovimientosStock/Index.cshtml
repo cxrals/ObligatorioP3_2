@@ -10,9 +10,19 @@
 
 <span class="alert-danger">@ViewBag.ErrorMsg</span>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div>
+    <a asp-action="Create">Crear Movimiento</a>
+</div>
+<div>
+    <a asp-action="BuscarPorFecha">Buscar Por Fecha</a>
+</div>
+<div>
+    <a asp-action="ObtenerResumen">Buscar Movimientos por Año</a>
+</div>
+<div>
+    <a asp-action="BuscarPorArticuloYTipo">Buscar Por Artículo y Tipo de Movimiento</a>
+</div>
+
 <table class="table">
     <thead>
         <tr>

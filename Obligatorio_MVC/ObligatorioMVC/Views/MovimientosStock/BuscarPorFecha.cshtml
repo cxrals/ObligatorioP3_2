@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DataTransferObjects.ArticuloDTO>
+
+@{
+    ViewData["Title"] = "Buscar Artículos Por Fecha de Movimiento";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<span class="alert-danger">@ViewBag.ErrorMsg</span>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="BuscarPorFecha">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Desde:</label>
+                <input type="date" name="desde" class="form-control" value="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Hasta:</label>
+                <input type="date" name="hasta" class="form-control" value="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model != null) {
+    @if (Model.Count() > 0) {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } else {
+        <span>@ViewBag.ErrorMsg</span>
+    }
+}

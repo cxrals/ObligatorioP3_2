@@ -27,7 +27,10 @@ namespace WebAPI
             builder.Services.AddScoped<ICUAlta<MovimientoStockDTO>, CUAltaMovimientoStock>();
             builder.Services.AddScoped<ICUListado<MovimientoStockIndexDTO>, CUListadoMovimientosStock>();
             builder.Services.AddScoped<ICUBuscarPorId<MovimientoStockDTO>, CUBuscarPorIdMovimientoStock>();
-
+            builder.Services.AddScoped<ICUBuscarPorFechaMovimiento, CUBuscarPorFechaMovimiento>();
+            builder.Services.AddScoped<ICUBuscarPorArticuloYTipoMovimiento, CUBuscarPorArticuloYTipoMovimiento>();
+            builder.Services.AddScoped<ICUResumenMovimientos, CUResumenMovimientos>();
+            
             builder.Services.AddScoped<ICUAutenticarUsuario, CUAutenticarUsuario>();
 
             builder.Services.AddScoped<IRepositorioArticulos, RepositorioArticulos>();

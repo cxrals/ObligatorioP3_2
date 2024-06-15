@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.InterfacesRepositorios {
     public interface IRepositorioMovimientosStock {
-        void Create(MovimientoStock obj);
         List<MovimientoStock> GetAll();
+        void Create(MovimientoStock obj);
         MovimientoStock FindById(int id);
+        List<MovimientoStock> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento);
+        List<MovimientoStock> ObtenerCantidadPorAnioYTipo();
+        List<Articulo> BuscarArticulosConMovimientosPorFecha(DateTime desde, DateTime hasta);
+
     }
 }

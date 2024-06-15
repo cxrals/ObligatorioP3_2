@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DataTransferObjects.MovimientoStockDTO>
+
+@{
+    ViewData["Title"] = "Buscar Por Artículo Y Tipo de Movimiento";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<span class="alert-danger">@ViewBag.ErrorMsg</span>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="BuscarPorArticuloYTipo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Id del Artículo:</label>
+                <input type="number" name="idArticulo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tipo de Movimiento:</label>
+                <input type="text" name="tipoMovimiento" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model != null) {
+    @if (Model.Count() > 0) {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ArticuloId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmailUsuario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoMovimientoId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cantidad)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ArticuloId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmailUsuario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoMovimientoId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cantidad)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } else {
+        <span>@ViewBag.ErrorMsg</span>
+    }
+}
