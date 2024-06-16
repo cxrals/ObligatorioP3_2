@@ -103,7 +103,7 @@ namespace ObligatorioMVC.Controllers {
 
             try {
                 HttpClient client = new HttpClient();
-                string url = UrlApi + "movimientosPorFecha/" + desde + "/" + hasta;
+                string url = UrlApi + "MovimientosStock/MovimientosPorFecha/" + desde + "/" + hasta;
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = client.GetAsync(url);
                 tarea.Wait();

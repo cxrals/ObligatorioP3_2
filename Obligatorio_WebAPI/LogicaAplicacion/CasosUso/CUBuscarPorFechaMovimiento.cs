@@ -16,7 +16,7 @@ namespace LogicaAplicacion.CasosUso {
         }
 
         public List<ArticuloDTO> BuscarPorFecha(DateTime desde, DateTime hasta) {
-            List<ArticuloDTO> dtos = new List<ArticuloDTO>();
+            List<ArticuloDTO> dtos = null;
             List<Articulo> articulosEncontrados = Repo.BuscarArticulosConMovimientosPorFecha(desde, hasta);
             
             if (articulosEncontrados.Count > 0) {

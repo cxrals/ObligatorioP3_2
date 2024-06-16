@@ -8,8 +8,6 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
-<span class="alert-danger">@ViewBag.ErrorMsg</span>
-
 <div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="BuscarPorFecha">
@@ -62,6 +60,8 @@
             </tbody>
         </table>
     } else {
-        <span>@ViewBag.ErrorMsg</span>
+        <span class="alert-danger">@ViewBag.ErrorMsg</span>
     }
+} else {
+    <span class="alert-danger">@ViewBag.ErrorMsg</span>
 }
