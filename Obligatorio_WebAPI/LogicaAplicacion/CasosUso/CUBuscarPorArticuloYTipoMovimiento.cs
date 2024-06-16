@@ -11,15 +11,24 @@ using System.Threading.Tasks;
 namespace LogicaAplicacion.CasosUso {
     public class CUBuscarPorArticuloYTipoMovimiento : ICUBuscarPorArticuloYTipoMovimiento {
         public IRepositorioMovimientosStock Repo { get; set; }
-        public CUBuscarPorArticuloYTipoMovimiento(IRepositorioMovimientosStock repo) {
+        public IRepositorioParametros RepoParametros { get; set; }
+        public CUBuscarPorArticuloYTipoMovimiento(IRepositorioMovimientosStock repo, IRepositorioParametros repoParametros) {
             Repo = repo;
+            RepoParametros = repoParametros;
         }
-        public List<MovimientoStockIndexDTO> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
+        public List<MovimientoStockIndexDTO> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento, int pagina) {
             List<MovimientoStockIndexDTO> dtos = null;
-            List<MovimientoStock> msEncontrados = Repo.BuscarMovimientosPorArticuloYTipo(idArticulo, tipoMovimiento);
+
+            // obtener el límite de records por página establecido en Parametros
+            int limitePorPagina = (int) RepoParametros.ObtenerLimitePorPagina();
+
+            List<MovimientoStock> msEncontrados = Repo.BuscarMovimientosPorArticuloYTipo(idArticulo, tipoMovimiento, pagina, limitePorPagina);
 
             if (msEncontrados.Count > 0) {
-                dtos = new List<MovimientoStockIndexDTO>();
+                // aplicar paginado al resultado de la query
+                // tdoo evaluar aplicar a nivel de repo xa no traer todos los records de la base
+                //List<MovimientoStock> dtosPorPagina = msEncontrados.Skip((pagina - 1) * limitePorPagina).Take(limitePorPagina).ToList();
+
                 dtos = msEncontrados.Select(ms => new MovimientoStockIndexDTO() {
                     Id = ms.Id,
                     Fecha = ms.Fecha,

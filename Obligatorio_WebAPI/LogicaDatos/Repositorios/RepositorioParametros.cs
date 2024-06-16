@@ -17,5 +17,13 @@ namespace LogicaDatos.Repositorios {
         public decimal ObtenerIva() {
             return Contexto.Parametros.Where(p => p.Nombre == "IVA").OrderByDescending(p => p.Id).First().Valor;
         }
+
+        public decimal ObtenerLimitePorPagina() {
+            return Contexto.Parametros.Where(p => p.Nombre == "LimitePorPagina").OrderByDescending(p => p.Id).First().Valor;
+        }
+
+        public decimal ObtenerLimiteTopeDeMovimientos() {
+            throw new NotImplementedException();
+        }
     }
 }

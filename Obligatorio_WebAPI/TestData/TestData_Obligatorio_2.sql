@@ -138,3 +138,13 @@ insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, C
 select * from  __EFMigrationsHistory
 DELETE FROM __EFMigrationsHistory WHERE MigrationId='20240516201117_init'
 
+-- test paginacion
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 5);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 10);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 25);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('17-05-2024', 1, 3, 1, 5);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 2);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 15);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 30);
+
+

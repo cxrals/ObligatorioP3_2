@@ -16,14 +16,17 @@ namespace WebAPI.Controllers {
         public ICUBuscarPorFechaMovimiento CUBuscarPorFecha { get; set; }
         public ICUBuscarPorArticuloYTipoMovimiento CUBuscarPorArticuloYTipo { get; set; }
         public ICUResumenMovimientos CUResumenMovimientos { get; set; }
+        public ICUCantidadDePaginas CUCantidadDePaginas { get; set; }
         
+
         public MovimientosStockController(
             ICUAlta<MovimientoStockDTO> cuAlta,
             ICUListado<MovimientoStockIndexDTO> cuListado,
             ICUBuscarPorId<MovimientoStockDTO> cuBuscarPorIdMS,
             ICUBuscarPorFechaMovimiento cuBuscarPorFecha,
             ICUBuscarPorArticuloYTipoMovimiento cuBuscarPorArticuloYTipo,
-            ICUResumenMovimientos cuResumenMovimientos
+            ICUResumenMovimientos cuResumenMovimientos,
+            ICUCantidadDePaginas cuCantidadPaginas
         ) {
             CUAlta = cuAlta;
             CUListado = cuListado;
@@ -31,6 +34,7 @@ namespace WebAPI.Controllers {
             CUBuscarPorFecha = cuBuscarPorFecha;
             CUBuscarPorArticuloYTipo = cuBuscarPorArticuloYTipo;
             CUResumenMovimientos = cuResumenMovimientos;
+            CUCantidadDePaginas = cuCantidadPaginas;
         }
 
 
@@ -88,11 +92,11 @@ namespace WebAPI.Controllers {
             }
         }
 
-        [HttpGet("MovimientosPorArticuloYTipo/{articuloId}/{tipoMovimiento}")]
-        public IActionResult MovimientosPorArticuloYTipo(int articuloId, string tipoMovimiento) {
+        [HttpGet("MovimientosPorArticuloYTipo/{articuloId}/{tipoMovimiento}/{page}")]
+        public IActionResult MovimientosPorArticuloYTipo(int articuloId, string tipoMovimiento, int page) {
             if (articuloId <= 0 || String.IsNullOrEmpty(tipoMovimiento)) return BadRequest("Artículo y tipo de movimiento son requeridos.");
             try {
-                List<MovimientoStockIndexDTO> movimientos = CUBuscarPorArticuloYTipo.BuscarMovimientosPorArticuloYTipo(articuloId, tipoMovimiento);
+                List<MovimientoStockIndexDTO> movimientos = CUBuscarPorArticuloYTipo.BuscarMovimientosPorArticuloYTipo(articuloId, tipoMovimiento, page);
                 if (movimientos == null) return NotFound("No existen movimientos para la combinacion de Artículo y tipo de movimiento seleccionados.");
                 return Ok(movimientos);
             } catch {
@@ -109,6 +113,19 @@ namespace WebAPI.Controllers {
                 List<MovimientoCantidadPorAnioYTipoDTO> movimientos = CUResumenMovimientos.ObtenerResumen();
                 return Ok(movimientos);
             } catch {
+                return StatusCode(500, "Ocurrió un error inesperado en el servidor. Reintente más tarde.");
+            }
+        }
+
+        //--------------------------------------------------------------------------
+        //--------------------------- PAGINACIÓN -----------------------------------
+        //--------------------------------------------------------------------------
+        [HttpGet("CantidadDePaginas/{articuloId}/{tipoMovimiento}")]
+        public IActionResult CantidadDePaginas(int articuloId, string tipoMovimiento) {
+            try {
+                double cantidad = CUCantidadDePaginas.ObtenerCantidadDePaginas(articuloId, tipoMovimiento);
+                return Ok(cantidad);
+            } catch (Exception ex) {
                 return StatusCode(500, "Ocurrió un error inesperado en el servidor. Reintente más tarde.");
             }
         }

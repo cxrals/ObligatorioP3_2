@@ -30,7 +30,8 @@ namespace WebAPI
             builder.Services.AddScoped<ICUBuscarPorFechaMovimiento, CUBuscarPorFechaMovimiento>();
             builder.Services.AddScoped<ICUBuscarPorArticuloYTipoMovimiento, CUBuscarPorArticuloYTipoMovimiento>();
             builder.Services.AddScoped<ICUResumenMovimientos, CUResumenMovimientos>();
-            
+            builder.Services.AddScoped<ICUCantidadDePaginas, CUCantidadDePaginas>();
+
             builder.Services.AddScoped<ICUAutenticarUsuario, CUAutenticarUsuario>();
 
             builder.Services.AddScoped<IRepositorioArticulos, RepositorioArticulos>();
@@ -38,7 +39,8 @@ namespace WebAPI
             builder.Services.AddScoped<IRepositorioUsuarios, RepositorioUsuarios>();
             builder.Services.AddScoped<IRepositorioTiposMovimientos, RepositorioTiposMovimientos>();
             builder.Services.AddScoped<IRepositorioMovimientosStock, RepositorioMovimientosStock>();
-
+            builder.Services.AddScoped<IRepositorioParametros, RepositorioParametros>();
+            
             string conStr = builder.Configuration.GetConnectionString("Caro-Zenbook");
             builder.Services.AddDbContext<ObligatorioContext>(options => options.UseSqlServer(conStr));
 

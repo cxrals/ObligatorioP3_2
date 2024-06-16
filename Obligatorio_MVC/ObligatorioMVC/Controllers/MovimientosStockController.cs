@@ -1,6 +1,7 @@
 ﻿using DataTransferObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Obligatorio.Filters;
 
@@ -129,24 +130,30 @@ namespace ObligatorioMVC.Controllers {
         }
 
         [HttpPost]
-        public ActionResult BuscarPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
+        public ActionResult BuscarPorArticuloYTipo(int idArticulo, string tipoMovimiento, int? page) {
             List<MovimientoStockIndexDTO> movimientosDeStock = new List<MovimientoStockIndexDTO>();
+            if (page == null) page = 1;
 
             try {
                 HttpClient client = new HttpClient();
                 //todo no funca pa null tm
-                string url = UrlApi + "MovimientosStock/MovimientosPorArticuloYTipo/" + idArticulo + "/" + tipoMovimiento;
+                string url = UrlApi + $"MovimientosStock/MovimientosPorArticuloYTipo/{idArticulo}/{tipoMovimiento}/{page}";
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
                 var respuesta = tarea.Result;
+
                 HttpContent content = respuesta.Content;
                 var tarea2 = content.ReadAsStringAsync();
                 tarea2.Wait();
                 string cuerpo = tarea2.Result;
+
                 if (respuesta.IsSuccessStatusCode) {
                     movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(cuerpo);
-                    return View(movimientosDeStock);
+                    double cantidadPaginas = ObtenerCantidadPaginas(idArticulo, tipoMovimiento);
+                    ViewBag.Paginas = Math.Ceiling(cantidadPaginas);
+                    ViewBag.ArticuloId = idArticulo;
+                    ViewBag.TipoMov = tipoMovimiento;
                 } else {
                     ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
@@ -154,7 +161,7 @@ namespace ObligatorioMVC.Controllers {
                 ViewBag.ErrorMsg = e.Message;
             }
 
-            return View();
+            return View(movimientosDeStock);
         }
 
         //--------------------------------------------------------------------------
@@ -223,6 +230,32 @@ namespace ObligatorioMVC.Controllers {
             }
 
             return tiposDeMovimientos;
+        }
+
+        public double ObtenerCantidadPaginas(int idArticulo, string tipoMovimiento) {
+            double cantidadPaginas = 0;
+            try {
+                HttpClient cliente = new HttpClient();
+                string url = UrlApi + $"MovimientosStock/CantidadDePaginas/{idArticulo}/{tipoMovimiento}"; ;
+                var tarea = cliente.GetAsync(url);
+                tarea.Wait();
+                var respuesta = tarea.Result;
+
+                HttpContent content = respuesta.Content;
+                var tarea2 = content.ReadAsStringAsync();
+                tarea2.Wait();
+                string contenido = tarea2.Result;
+
+                if (respuesta.IsSuccessStatusCode) {
+                    contenido = contenido.Replace(".", ",");
+                    double.TryParse(contenido, out cantidadPaginas);
+                } else if ((int)respuesta.StatusCode == StatusCodes.Status400BadRequest || (int)respuesta.StatusCode == StatusCodes.Status500InternalServerError) {
+                    cantidadPaginas = -1;
+                }
+            } catch (Exception ex) {
+                throw;
+            }
+            return cantidadPaginas;
         }
 
     }

@@ -8,5 +8,7 @@ using System.Threading.Tasks;
 namespace LogicaNegocio.InterfacesRepositorios {
     public interface IRepositorioParametros {
         public decimal ObtenerIva();
+        public decimal ObtenerLimitePorPagina();
+        public decimal ObtenerLimiteTopeDeMovimientos();
     }
 }

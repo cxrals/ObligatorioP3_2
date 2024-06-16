@@ -36,8 +36,7 @@ namespace LogicaDatos.Repositorios {
             .ToList();
         }
 
-        public List<MovimientoStock> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
-            // todo incluir fields de tipoMov
+        public List<MovimientoStock> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento, int pagina, int limitePorPagina) {
             return Contexto.MovimientosStock
                 .Where(ms => ms.Articulo.Id == idArticulo 
                     && ms.TipoMovimiento.Nombre == tipoMovimiento)
@@ -46,6 +45,8 @@ namespace LogicaDatos.Repositorios {
                 .Include(ms => ms.Usuario)
                 .OrderByDescending(ms => ms.Fecha)
                 .ThenBy(ms => ms.Cantidad)
+                .Skip((pagina - 1) * limitePorPagina)
+                .Take(limitePorPagina)
                 .ToList();
         }
 
@@ -69,6 +70,13 @@ namespace LogicaDatos.Repositorios {
             .ToList();
 
             return JsonConvert.SerializeObject(consulta);
+        }
+
+        public int CantidadDeMovimientos(int idArticulo, string tipoMovimiento) {
+            return Contexto.MovimientosStock
+            .Where(ms => ms.Articulo.Id == idArticulo
+                    && ms.TipoMovimiento.Nombre == tipoMovimiento)
+            .Count();
         }
     }
 }
