@@ -14,17 +14,20 @@ namespace LogicaAplicacion.CasosUso {
         public CUBuscarPorArticuloYTipoMovimiento(IRepositorioMovimientosStock repo) {
             Repo = repo;
         }
-        public List<MovimientoStockDTO> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
-            List<MovimientoStockDTO> dtos = new List<MovimientoStockDTO>();
+        public List<MovimientoStockIndexDTO> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
+            List<MovimientoStockIndexDTO> dtos = null;
             List<MovimientoStock> msEncontrados = Repo.BuscarMovimientosPorArticuloYTipo(idArticulo, tipoMovimiento);
 
             if (msEncontrados.Count > 0) {
-            //TODO agregar mas field de tipo mmov
-                dtos = msEncontrados.Select(ms => new MovimientoStockDTO() {
+                dtos = new List<MovimientoStockIndexDTO>();
+                dtos = msEncontrados.Select(ms => new MovimientoStockIndexDTO() {
                     Id = ms.Id,
                     Fecha = ms.Fecha,
                     Cantidad = ms.Cantidad,
-                    TipoMovimientoId = ms.TipoMovimiento.Id
+                    ArticuloNombre = ms.Articulo.Nombre,
+                    EmailUsuario = ms.Usuario.Email,
+                    TipoMovimientoNombre = ms.TipoMovimiento.Nombre,
+                    TipoMovimientoAccion = ms.TipoMovimiento.TipoAccion.ToString()
                 })
                 .ToList();
             }

@@ -130,11 +130,12 @@ namespace ObligatorioMVC.Controllers {
 
         [HttpPost]
         public ActionResult BuscarPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
-            List<MovimientoStockDTO> movimientosDeStock = new List<MovimientoStockDTO>();
+            List<MovimientoStockIndexDTO> movimientosDeStock = new List<MovimientoStockIndexDTO>();
 
             try {
                 HttpClient client = new HttpClient();
-                string url = UrlApi + "movimientosPorArticuloYTipo/" + idArticulo + "/" + tipoMovimiento;
+                //todo no funca pa null tm
+                string url = UrlApi + "MovimientosStock/MovimientosPorArticuloYTipo/" + idArticulo + "/" + tipoMovimiento;
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
@@ -144,7 +145,8 @@ namespace ObligatorioMVC.Controllers {
                 tarea2.Wait();
                 string cuerpo = tarea2.Result;
                 if (respuesta.IsSuccessStatusCode) {
-                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockDTO>>(cuerpo);
+                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(cuerpo);
+                    return View(movimientosDeStock);
                 } else {
                     ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
@@ -152,7 +154,7 @@ namespace ObligatorioMVC.Controllers {
                 ViewBag.ErrorMsg = e.Message;
             }
 
-            return View(movimientosDeStock);
+            return View();
         }
 
         //--------------------------------------------------------------------------

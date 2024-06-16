@@ -90,9 +90,9 @@ namespace WebAPI.Controllers {
 
         [HttpGet("MovimientosPorArticuloYTipo/{articuloId}/{tipoMovimiento}")]
         public IActionResult MovimientosPorArticuloYTipo(int articuloId, string tipoMovimiento) {
-            if (articuloId <= 0 || tipoMovimiento == null) return BadRequest("Artículo y tipo de movimiento son requeridos.");
+            if (articuloId <= 0 || String.IsNullOrEmpty(tipoMovimiento)) return BadRequest("Artículo y tipo de movimiento son requeridos.");
             try {
-                List<MovimientoStockDTO> movimientos = CUBuscarPorArticuloYTipo.BuscarMovimientosPorArticuloYTipo(articuloId, tipoMovimiento);
+                List<MovimientoStockIndexDTO> movimientos = CUBuscarPorArticuloYTipo.BuscarMovimientosPorArticuloYTipo(articuloId, tipoMovimiento);
                 if (movimientos == null) return NotFound("No existen movimientos para la combinacion de Artículo y tipo de movimiento seleccionados.");
                 return Ok(movimientos);
             } catch {

@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.InterfacesCasosUso {
     public interface ICUBuscarPorArticuloYTipoMovimiento {
-        List<MovimientoStockDTO> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento);
+        List<MovimientoStockIndexDTO> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento);
     }
 }

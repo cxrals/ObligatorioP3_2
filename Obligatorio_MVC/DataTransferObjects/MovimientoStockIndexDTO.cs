@@ -16,5 +16,7 @@ namespace DataTransferObjects {
         [Display(Name = "Tipo de Movimiento")]
         public string TipoMovimientoNombre { get; set; }
         public int Cantidad { get; set; }
+        [Display(Name = "Acción Tipo de Movimiento")]
+        public string? TipoMovimientoAccion { get; set; } // RF-04-a
     }
 }

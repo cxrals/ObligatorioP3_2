@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataTransferObjects.MovimientoStockDTO>
+﻿@model IEnumerable<DataTransferObjects.MovimientoStockIndexDTO>
 
 @{
     ViewData["Title"] = "Buscar Por Artículo Y Tipo de Movimiento";
@@ -7,8 +7,6 @@
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
-
-<span class="alert-danger">@ViewBag.ErrorMsg</span>
 
 <div class="row justify-content-center">
     <div class="col-md-4">
@@ -41,16 +39,19 @@
                         @Html.DisplayNameFor(model => model.Fecha)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ArticuloId)
+                        @Html.DisplayNameFor(model => model.ArticuloNombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cantidad)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.EmailUsuario)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.TipoMovimientoId)
+                        @Html.DisplayNameFor(model => model.TipoMovimientoNombre)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Cantidad)
+                        @Html.DisplayNameFor(model => model.TipoMovimientoAccion)
                     </th>
                 </tr>
             </thead>
@@ -64,22 +65,27 @@
                             @Html.DisplayFor(modelItem => item.Fecha)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ArticuloId)
+                            @Html.DisplayFor(modelItem => item.ArticuloNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cantidad)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.EmailUsuario)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TipoMovimientoId)
+                            @Html.DisplayFor(modelItem => item.TipoMovimientoNombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Cantidad)
+                            @Html.DisplayFor(modelItem => item.TipoMovimientoAccion)
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     } else {
-        <span>@ViewBag.ErrorMsg</span>
+        <span class="alert-danger">@ViewBag.ErrorMsg</span>
     }
+} else {
+    <span class="alert-danger">@ViewBag.ErrorMsg</span>
 }

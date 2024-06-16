@@ -40,6 +40,8 @@ namespace LogicaDatos.Repositorios {
                 .Where(ms => ms.Articulo.Id == idArticulo 
                     && ms.TipoMovimiento.Nombre == tipoMovimiento)
                 .Include(ms => ms.TipoMovimiento)
+                .Include(ms => ms.Articulo)
+                .Include(ms => ms.Usuario)
                 .OrderByDescending(ms => ms.Fecha)
                 .ThenBy(ms => ms.Cantidad)
                 .ToList();
