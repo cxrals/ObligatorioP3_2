@@ -161,11 +161,11 @@ namespace ObligatorioMVC.Controllers {
         //----------------------------- RESUMEN ------------------------------------
         //--------------------------------------------------------------------------
         public ActionResult ObtenerResumen() {
-            List<MovimientoStockDTO> movimientosDeStock = new List<MovimientoStockDTO>();
+            List<MovimientoCantidadPorAnioYTipoDTO> movimientosDeStock = new List<MovimientoCantidadPorAnioYTipoDTO>();
 
             try {
                 HttpClient client = new HttpClient();
-                string url = UrlApi + "resumenMovimientos";
+                string url = UrlApi + "MovimientosStock/ResumenMovimientos";
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
@@ -175,7 +175,7 @@ namespace ObligatorioMVC.Controllers {
                 tarea2.Wait();
                 string cuerpo = tarea2.Result;
                 if (respuesta.IsSuccessStatusCode) {
-                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockDTO>>(cuerpo);
+                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoCantidadPorAnioYTipoDTO>>(cuerpo);
                 }
             } catch (Exception e) {
                 ViewBag.ErrorMsg = e.Message;

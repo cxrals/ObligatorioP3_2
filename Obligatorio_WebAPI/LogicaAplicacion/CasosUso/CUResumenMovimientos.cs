@@ -2,6 +2,7 @@
 using LogicaAplicacion.InterfacesCasosUso;
 using LogicaNegocio.Dominio;
 using LogicaNegocio.InterfacesRepositorios;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,17 @@ namespace LogicaAplicacion.CasosUso {
         public CUResumenMovimientos(IRepositorioMovimientosStock repo) {
             Repo = repo;
         }
-        public List<MovimientoStockDTO> ObtenerResumen() {
-            List<MovimientoStockDTO> dtos = new List<MovimientoStockDTO>();
-            List<MovimientoStock> msEncontrados = Repo.ObtenerCantidadPorAnioYTipo();
+        public List<MovimientoCantidadPorAnioYTipoDTO> ObtenerResumen() {
+            //TODO falta calcular el total por año
+            List<MovimientoCantidadPorAnioYTipoDTO> dtos = new List<MovimientoCantidadPorAnioYTipoDTO>();
+            string msSerialized = Repo.ObtenerCantidadPorAnioYTipo();
+            List<MovimientoCantidadPorAnioYTipoDTO> msEncontrados = JsonConvert.DeserializeObject<List<MovimientoCantidadPorAnioYTipoDTO>>(msSerialized);
 
             if (msEncontrados.Count > 0) {
-                //TODO cambiar a otro dto
-                dtos = msEncontrados.Select(ms => new MovimientoStockDTO() {
-                    Id = ms.Id,
-                    Fecha = ms.Fecha,
-                    Cantidad = ms.Cantidad
+                dtos = msEncontrados.Select(ms => new MovimientoCantidadPorAnioYTipoDTO() {
+                    Anio = ms.Anio,
+                    Cantidad = ms.Cantidad,
+                    TipoMovimiento = ms.TipoMovimiento
                 })
                 .ToList();
             }

@@ -2,9 +2,11 @@
 using LogicaNegocio.Dominio;
 using LogicaNegocio.InterfacesRepositorios;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,19 +56,19 @@ namespace LogicaDatos.Repositorios {
                 .ToList();
         }
 
-        public List<MovimientoStock> ObtenerCantidadPorAnioYTipo() {
-            return Contexto.MovimientosStock
-            //TODO
-            //.GroupBy(ms => new { Anio = ms.Fecha.Year })
-            //.Select(grupo => {
-            //    new MovimientoCantidadPorAnioYTipoDTO() {
-            //        Anio = grupo.Key.Anio,
-            //        Cantidad = grupo.Sum(ms => ms.Cantidad)
-            //    };
-            //})
-            .ToList();
-        }
+        public string ObtenerCantidadPorAnioYTipo() {
+            List<MovimientoCantidadPorAnioYTipoDTO> consulta = new List<MovimientoCantidadPorAnioYTipoDTO>();
 
-  
+            consulta = Contexto.MovimientosStock
+            .GroupBy(ms => new { Anio = ms.Fecha.Year, ms.TipoMovimiento.Nombre })
+            .Select(grupo => new MovimientoCantidadPorAnioYTipoDTO {
+                Anio = grupo.Key.Anio,
+                TipoMovimiento = grupo.Key.Nombre,
+                Cantidad = grupo.Sum(g => g.Cantidad)
+            })
+            .ToList();
+
+            return JsonConvert.SerializeObject(consulta);
+        }
     }
 }

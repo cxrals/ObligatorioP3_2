@@ -106,7 +106,7 @@ namespace WebAPI.Controllers {
         [HttpGet("ResumenMovimientos/")]
         public IActionResult ResumenMovimientos() {
             try {
-                List<MovimientoStockDTO> movimientos = CUResumenMovimientos.ObtenerResumen();
+                List<MovimientoCantidadPorAnioYTipoDTO> movimientos = CUResumenMovimientos.ObtenerResumen();
                 return Ok(movimientos);
             } catch {
                 return StatusCode(500, "Ocurrió un error inesperado en el servidor. Reintente más tarde.");

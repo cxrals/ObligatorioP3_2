@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataTransferObjects.MovimientoStockDTO>
+﻿@model IEnumerable<DataTransferObjects.MovimientoCantidadPorAnioYTipoDTO>
 
 @{
     ViewData["Title"] = "Movimientos de Stock por Año";
@@ -15,10 +15,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Anio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fecha)
+                @Html.DisplayNameFor(model => model.TipoMovimiento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cantidad)
@@ -29,10 +29,10 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Anio)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
+                    @Html.DisplayFor(modelItem => item.TipoMovimiento)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cantidad)

@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.InterfacesCasosUso {
     public interface ICUResumenMovimientos {
-        public List<MovimientoStockDTO> ObtenerResumen();
+        public List<MovimientoCantidadPorAnioYTipoDTO> ObtenerResumen();
     }
 }
