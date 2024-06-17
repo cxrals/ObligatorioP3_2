@@ -90,13 +90,14 @@
     <span class="alert-danger">@ViewBag.ErrorMsg</span>
 }
 
-
-<ul class="pagination justify-content-center">
-    @for (int i = 1; i <= ViewBag.Paginas; i++) {
-        <li class="page-item">
-            <a class="page-link" href=@($"/MovimientosStock/BuscarPorArticuloYTipo?page={i}")>
-                @i
-            </a>
-        </li>
-    }
-</ul>
+@if (ViewBag.Paginas != null && ViewBag.Paginas > 1) {
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.Paginas; i++) {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("BuscarPorArticuloYTipo", new { idArticulo = ViewBag.ArticuloId, tipoMovimiento = ViewBag.TipoMov, page = i })")>
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+}

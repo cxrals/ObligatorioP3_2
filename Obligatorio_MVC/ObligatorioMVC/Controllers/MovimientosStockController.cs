@@ -133,20 +133,15 @@ namespace ObligatorioMVC.Controllers {
             return View(articulosConMovimientosDeStock);
         }
 
-        [Privado(TipoUsuarios = "Encargado")]
-        public ActionResult BuscarPorArticuloYTipo() {
-            return View();
-        }
-
-        [HttpPost]
+        [HttpGet]
         [Privado(TipoUsuarios = "Encargado")]
         public ActionResult BuscarPorArticuloYTipo(int idArticulo, string tipoMovimiento, int? page) {
-            List<MovimientoStockIndexDTO> movimientosDeStock = new List<MovimientoStockIndexDTO>();
             if (page == null) page = 1;
+
+            List<MovimientoStockIndexDTO> movimientosDeStock = new List<MovimientoStockIndexDTO>();
 
             try {
                 HttpClient client = new HttpClient();
-                //todo no funca pa null tm
                 string url = UrlApi + $"MovimientosStock/MovimientosPorArticuloYTipo/{idArticulo}/{tipoMovimiento}/{page}";
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = client.GetAsync(url);
@@ -172,6 +167,12 @@ namespace ObligatorioMVC.Controllers {
             }
 
             return View(movimientosDeStock);
+        }
+
+        [HttpPost]
+        [Privado(TipoUsuarios = "Encargado")]
+        public ActionResult BuscarPorArticuloYTipo(int idArticulo, string tipoMovimiento) {
+            return RedirectToAction("BuscarPorArticuloYTipo", new { idArticulo, tipoMovimiento, page = 1 });
         }
 
         //--------------------------------------------------------------------------
