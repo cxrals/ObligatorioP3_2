@@ -98,6 +98,7 @@ namespace ObligatorioMVC.Controllers {
         //--------------------------------------------------------------------------
         //----------------------------- BUSCAR -------------------------------------
         //--------------------------------------------------------------------------
+        [Privado(TipoUsuarios = "Encargado")]
         public ActionResult BuscarPorFecha() {
             return View();
         }
@@ -132,11 +133,13 @@ namespace ObligatorioMVC.Controllers {
             return View(articulosConMovimientosDeStock);
         }
 
+        [Privado(TipoUsuarios = "Encargado")]
         public ActionResult BuscarPorArticuloYTipo() {
             return View();
         }
 
         [HttpPost]
+        [Privado(TipoUsuarios = "Encargado")]
         public ActionResult BuscarPorArticuloYTipo(int idArticulo, string tipoMovimiento, int? page) {
             List<MovimientoStockIndexDTO> movimientosDeStock = new List<MovimientoStockIndexDTO>();
             if (page == null) page = 1;
@@ -174,6 +177,7 @@ namespace ObligatorioMVC.Controllers {
         //--------------------------------------------------------------------------
         //----------------------------- RESUMEN ------------------------------------
         //--------------------------------------------------------------------------
+        [Privado(TipoUsuarios = "Encargado")]
         public ActionResult ObtenerResumen() {
             List<MovimientoCantidadPorAnioYTipoDTO> movimientosDeStock = new List<MovimientoCantidadPorAnioYTipoDTO>();
 
