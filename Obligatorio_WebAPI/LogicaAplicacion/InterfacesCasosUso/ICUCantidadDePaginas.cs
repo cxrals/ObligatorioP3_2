@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace LogicaAplicacion.InterfacesCasosUso {
     public interface ICUCantidadDePaginas {
         public double ObtenerCantidadDePaginas(int idArticulo, string tipoMovimiento);
+        public double ObtenerCantidadDePaginas(string desde, string hasta);
     }
 }

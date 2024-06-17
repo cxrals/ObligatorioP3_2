@@ -79,14 +79,14 @@ namespace WebAPI.Controllers {
         //--------------------------------------------------------------------------
         //----------------------------- BUSCAR -------------------------------------
         //--------------------------------------------------------------------------
-        [HttpGet("MovimientosPorFecha/{desde}/{hasta}")]
-        public IActionResult MovimientosPorFecha(string desde, string hasta) {
+        [HttpGet("MovimientosPorFecha/{desde}/{hasta}/{page}")]
+        public IActionResult MovimientosPorFecha(string desde, string hasta, int page) {
             DateTime fechaDesde = DateTime.Parse(desde);
             DateTime fechaHasta = DateTime.Parse(hasta);
 
             if (desde == null || hasta == null) return BadRequest("Las fechas son requeridas.");
             try {
-                List<ArticuloDTO> articulos = CUBuscarPorFecha.BuscarPorFecha(fechaDesde, fechaHasta);
+                List<ArticuloDTO> articulos = CUBuscarPorFecha.BuscarPorFecha(fechaDesde, fechaHasta, page);
                 if (articulos == null) return NotFound("No existen movimientos para las fechas seleccionadas.");
                 return Ok(articulos);
             } catch {
@@ -124,6 +124,19 @@ namespace WebAPI.Controllers {
         //--------------------------------------------------------------------------
         [HttpGet("CantidadDePaginas/{articuloId}/{tipoMovimiento}")]
         public IActionResult CantidadDePaginas(int articuloId, string tipoMovimiento) {
+            try {
+                double cantidad = CUCantidadDePaginas.ObtenerCantidadDePaginas(articuloId, tipoMovimiento);
+                return Ok(cantidad);
+            } catch (Exception ex) {
+                return StatusCode(500, "Ocurrió un error inesperado en el servidor. Reintente más tarde.");
+            }
+        }
+
+        //--------------------------------------------------------------------------
+        //--------------------------- PAGINACIÓN -----------------------------------
+        //--------------------------------------------------------------------------
+        [HttpGet("CantidadDePaginasFechas/{articuloId}/{tipoMovimiento}")]
+        public IActionResult CantidadDePaginas(string articuloId, string tipoMovimiento) {
             try {
                 double cantidad = CUCantidadDePaginas.ObtenerCantidadDePaginas(articuloId, tipoMovimiento);
                 return Ok(cantidad);

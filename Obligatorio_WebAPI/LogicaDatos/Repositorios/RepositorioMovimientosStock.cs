@@ -50,10 +50,12 @@ namespace LogicaDatos.Repositorios {
                 .ToList();
         }
 
-        public List<Articulo> BuscarArticulosConMovimientosPorFecha(DateTime desde, DateTime hasta) {
+        public List<Articulo> BuscarArticulosConMovimientosPorFecha(DateTime desde, DateTime hasta, int pagina, int limitePorPagina) {
             return Contexto.MovimientosStock
                 .Where(ms => ms.Fecha >= desde && ms.Fecha <= hasta)
                 .Select(ms => ms.Articulo)
+                .Skip((pagina - 1) * limitePorPagina)
+                .Take(limitePorPagina)
                 .ToList();
         }
 
@@ -76,6 +78,12 @@ namespace LogicaDatos.Repositorios {
             return Contexto.MovimientosStock
             .Where(ms => ms.Articulo.Id == idArticulo
                     && ms.TipoMovimiento.Nombre == tipoMovimiento)
+            .Count();
+        }
+
+        public int CantidadDeMovimientos(DateTime desde, DateTime hasta) {
+            return Contexto.MovimientosStock
+            .Where(ms => ms.Fecha >= desde && ms.Fecha <= hasta)
             .Count();
         }
     }

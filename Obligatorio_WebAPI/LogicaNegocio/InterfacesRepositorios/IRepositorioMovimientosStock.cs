@@ -12,7 +12,8 @@ namespace LogicaNegocio.InterfacesRepositorios {
         MovimientoStock FindById(int id);
         List<MovimientoStock> BuscarMovimientosPorArticuloYTipo(int idArticulo, string tipoMovimiento, int pagina, int limitePorPagina);
         string ObtenerCantidadPorAnioYTipo();
-        List<Articulo> BuscarArticulosConMovimientosPorFecha(DateTime desde, DateTime hasta);
+        List<Articulo> BuscarArticulosConMovimientosPorFecha(DateTime desde, DateTime hasta,int pagina, int limitePorPagina);
         public int CantidadDeMovimientos(int idArticulo, string tipoMovimiento);
+        public int CantidadDeMovimientos(DateTime desde, DateTime hasta);
     }
 }

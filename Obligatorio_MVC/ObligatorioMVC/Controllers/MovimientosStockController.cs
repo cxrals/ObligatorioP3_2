@@ -19,7 +19,7 @@ namespace ObligatorioMVC.Controllers {
         public ActionResult Index() {
             List<MovimientoStockIndexDTO> movimientosDeStock = new List<MovimientoStockIndexDTO>();
 
-            try{
+            try {
                 HttpClient client = new HttpClient();
                 string url = UrlApi + "movimientosStock";
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
@@ -40,7 +40,7 @@ namespace ObligatorioMVC.Controllers {
             } catch (Exception e) {
                 ViewBag.ErrorMsg = e.Message;
             }
-            
+
             return View(movimientosDeStock);
         }
 
@@ -98,19 +98,15 @@ namespace ObligatorioMVC.Controllers {
         //--------------------------------------------------------------------------
         //----------------------------- BUSCAR -------------------------------------
         //--------------------------------------------------------------------------
+        [HttpGet]
         [Privado(TipoUsuarios = "Encargado")]
-        public ActionResult BuscarPorFecha() {
-            return View();
-        }
-
-        [HttpPost]
-        [Privado(TipoUsuarios = "Encargado")]
-        public ActionResult BuscarPorFecha(string desde, string hasta) {
-           List<ArticuloDTO> articulosConMovimientosDeStock = new List<ArticuloDTO>();
+        public ActionResult BuscarPorFecha(string desde, string hasta, int? page) {
+            if (page == null) page = 1;
+            List<ArticuloDTO> articulosConMovimientosDeStock = new List<ArticuloDTO>();
 
             try {
                 HttpClient client = new HttpClient();
-                string url = UrlApi + "MovimientosStock/MovimientosPorFecha/" + desde + "/" + hasta;
+                string url = UrlApi + $"MovimientosStock/MovimientosPorFecha/{desde}/{hasta}/{page}";
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
@@ -123,6 +119,10 @@ namespace ObligatorioMVC.Controllers {
 
                 if (respuesta.IsSuccessStatusCode) {
                     articulosConMovimientosDeStock = JsonConvert.DeserializeObject<List<ArticuloDTO>>(body);
+                    double cantidadPaginas = ObtenerCantidadPaginas($"MovimientosStock/CantidadDePaginasFechas/{desde}/{hasta}");
+                    ViewBag.Paginas = Math.Ceiling(cantidadPaginas);
+                    ViewBag.Desde = desde;
+                    ViewBag.Hasta = hasta;
                 } else {
                     ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
@@ -131,6 +131,12 @@ namespace ObligatorioMVC.Controllers {
             }
 
             return View(articulosConMovimientosDeStock);
+        }
+
+        [HttpPost]
+        [Privado(TipoUsuarios = "Encargado")]
+        public ActionResult BuscarPorFecha(string desde, string hasta) {
+            return RedirectToAction("BuscarPorFecha", new { desde, hasta, page = 1 });
         }
 
         [HttpGet]
@@ -155,7 +161,7 @@ namespace ObligatorioMVC.Controllers {
 
                 if (respuesta.IsSuccessStatusCode) {
                     movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(body);
-                    double cantidadPaginas = ObtenerCantidadPaginas(idArticulo, tipoMovimiento);
+                    double cantidadPaginas = ObtenerCantidadPaginas($"MovimientosStock/CantidadDePaginas/{idArticulo}/{tipoMovimiento}");
                     ViewBag.Paginas = Math.Ceiling(cantidadPaginas);
                     ViewBag.ArticuloId = idArticulo;
                     ViewBag.TipoMov = tipoMovimiento;
@@ -254,13 +260,13 @@ namespace ObligatorioMVC.Controllers {
             return tiposDeMovimientos;
         }
 
-        public double ObtenerCantidadPaginas(int idArticulo, string tipoMovimiento) {
+        public double ObtenerCantidadPaginas(string url) {
             double cantidadPaginas = 0;
             try {
                 HttpClient cliente = new HttpClient();
-                string url = UrlApi + $"MovimientosStock/CantidadDePaginas/{idArticulo}/{tipoMovimiento}";
+                string requestUrl = UrlApi + url;
                 cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
-                var tarea = cliente.GetAsync(url);
+                var tarea = cliente.GetAsync(requestUrl);
                 tarea.Wait();
                 var respuesta = tarea.Result;
 
@@ -280,5 +286,6 @@ namespace ObligatorioMVC.Controllers {
             }
             return cantidadPaginas;
         }
+
     }
 }

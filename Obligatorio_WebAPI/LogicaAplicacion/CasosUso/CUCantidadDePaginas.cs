@@ -24,5 +24,19 @@ namespace LogicaAplicacion.CasosUso {
 
             return Math.Ceiling( (double) totalQuery / (double) limitePorPagina);
         }
+
+        public double ObtenerCantidadDePaginas(string desde, string hasta) {
+            // obtener el límite de records por página establecido en Parametros
+            int limitePorPagina = (int)RepoParametros.ObtenerLimitePorPagina();
+
+            // convertir a fechas
+            DateTime fechaDesde = DateTime.Parse(desde);
+            DateTime fechaHasta = DateTime.Parse(hasta);
+
+            // obtener cantidad de records que devolvio la consulta
+            int totalQuery = Repo.CantidadDeMovimientos(fechaDesde, fechaHasta);
+
+            return Math.Ceiling((double)totalQuery / (double)limitePorPagina);
+        }
     }
 }

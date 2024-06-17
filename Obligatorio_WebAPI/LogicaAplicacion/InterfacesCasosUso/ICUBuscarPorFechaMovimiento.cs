@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.InterfacesCasosUso {
     public interface ICUBuscarPorFechaMovimiento {
-        List<ArticuloDTO> BuscarPorFecha(DateTime desde, DateTime hasta);
+        List<ArticuloDTO> BuscarPorFecha(DateTime desde, DateTime hasta, int pagina);
     }
 }
