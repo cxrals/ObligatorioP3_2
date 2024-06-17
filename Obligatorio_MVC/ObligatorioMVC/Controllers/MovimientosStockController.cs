@@ -26,12 +26,16 @@ namespace ObligatorioMVC.Controllers {
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
                 var respuesta = tarea.Result;
+
                 HttpContent content = respuesta.Content;
                 var tarea2 = content.ReadAsStringAsync();
                 tarea2.Wait();
-                string cuerpo = tarea2.Result;
+                string body = tarea2.Result;
+
                 if (respuesta.IsSuccessStatusCode) {
-                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(cuerpo);
+                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(body);
+                } else {
+                    ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
             } catch (Exception e) {
                 ViewBag.ErrorMsg = e.Message;
@@ -78,7 +82,7 @@ namespace ObligatorioMVC.Controllers {
                 HttpContent content = respuesta.Content;
                 var tarea2 = content.ReadAsStringAsync();
                 tarea2.Wait();
-                string cuerpo = tarea2.Result;
+                string body = tarea2.Result;
 
                 if (respuesta.IsSuccessStatusCode) {
                     return RedirectToAction(nameof(Index));
@@ -99,6 +103,7 @@ namespace ObligatorioMVC.Controllers {
         }
 
         [HttpPost]
+        [Privado(TipoUsuarios = "Encargado")]
         public ActionResult BuscarPorFecha(string desde, string hasta) {
            List<ArticuloDTO> articulosConMovimientosDeStock = new List<ArticuloDTO>();
 
@@ -109,12 +114,14 @@ namespace ObligatorioMVC.Controllers {
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
                 var respuesta = tarea.Result;
+
                 HttpContent content = respuesta.Content;
                 var tarea2 = content.ReadAsStringAsync();
                 tarea2.Wait();
-                string cuerpo = tarea2.Result;
+                string body = tarea2.Result;
+
                 if (respuesta.IsSuccessStatusCode) {
-                    articulosConMovimientosDeStock = JsonConvert.DeserializeObject<List<ArticuloDTO>>(cuerpo);
+                    articulosConMovimientosDeStock = JsonConvert.DeserializeObject<List<ArticuloDTO>>(body);
                 } else {
                     ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
@@ -146,10 +153,10 @@ namespace ObligatorioMVC.Controllers {
                 HttpContent content = respuesta.Content;
                 var tarea2 = content.ReadAsStringAsync();
                 tarea2.Wait();
-                string cuerpo = tarea2.Result;
+                string body = tarea2.Result;
 
                 if (respuesta.IsSuccessStatusCode) {
-                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(cuerpo);
+                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoStockIndexDTO>>(body);
                     double cantidadPaginas = ObtenerCantidadPaginas(idArticulo, tipoMovimiento);
                     ViewBag.Paginas = Math.Ceiling(cantidadPaginas);
                     ViewBag.ArticuloId = idArticulo;
@@ -177,12 +184,16 @@ namespace ObligatorioMVC.Controllers {
                 var tarea = client.GetAsync(url);
                 tarea.Wait();
                 var respuesta = tarea.Result;
+
                 HttpContent content = respuesta.Content;
                 var tarea2 = content.ReadAsStringAsync();
                 tarea2.Wait();
-                string cuerpo = tarea2.Result;
+                string body = tarea2.Result;
+
                 if (respuesta.IsSuccessStatusCode) {
-                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoCantidadPorAnioYTipoDTO>>(cuerpo);
+                    movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoCantidadPorAnioYTipoDTO>>(body);
+                } else {
+                    ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
             } catch (Exception e) {
                 ViewBag.ErrorMsg = e.Message;
@@ -199,15 +210,18 @@ namespace ObligatorioMVC.Controllers {
 
             HttpClient cliente = new HttpClient();
             string url = UrlApi + "articulos";
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
             var tarea = cliente.GetAsync(url);
             tarea.Wait();
             var respuesta = tarea.Result;
+
             HttpContent content = respuesta.Content;
             var tarea2 = content.ReadAsStringAsync();
             tarea2.Wait();
-            string cuerpo = tarea2.Result;
+            string body = tarea2.Result;
+
             if (respuesta.IsSuccessStatusCode) {
-                articulos = JsonConvert.DeserializeObject<List<ArticuloDTO>>(cuerpo);
+                articulos = JsonConvert.DeserializeObject<List<ArticuloDTO>>(body);
             }
 
             return articulos;
@@ -218,15 +232,18 @@ namespace ObligatorioMVC.Controllers {
 
             HttpClient cliente = new HttpClient();
             string url = UrlApi + "tiposMovimientos";
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
             var tarea = cliente.GetAsync(url);
             tarea.Wait();
             var respuesta = tarea.Result;
+
             HttpContent content = respuesta.Content;
             var tarea2 = content.ReadAsStringAsync();
             tarea2.Wait();
-            string cuerpo = tarea2.Result;
+            string body = tarea2.Result;
+
             if (respuesta.IsSuccessStatusCode) {
-                tiposDeMovimientos = JsonConvert.DeserializeObject<List<TipoMovimientoDTO>>(cuerpo);
+                tiposDeMovimientos = JsonConvert.DeserializeObject<List<TipoMovimientoDTO>>(body);
             }
 
             return tiposDeMovimientos;
@@ -236,7 +253,8 @@ namespace ObligatorioMVC.Controllers {
             double cantidadPaginas = 0;
             try {
                 HttpClient cliente = new HttpClient();
-                string url = UrlApi + $"MovimientosStock/CantidadDePaginas/{idArticulo}/{tipoMovimiento}"; ;
+                string url = UrlApi + $"MovimientosStock/CantidadDePaginas/{idArticulo}/{tipoMovimiento}";
+                cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("Token"));
                 var tarea = cliente.GetAsync(url);
                 tarea.Wait();
                 var respuesta = tarea.Result;
@@ -257,6 +275,5 @@ namespace ObligatorioMVC.Controllers {
             }
             return cantidadPaginas;
         }
-
     }
 }

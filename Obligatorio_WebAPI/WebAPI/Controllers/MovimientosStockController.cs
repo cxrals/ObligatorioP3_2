@@ -67,6 +67,8 @@ namespace WebAPI.Controllers {
             try {
                 CUAlta.Alta(msDTO);
                 return CreatedAtRoute("BuscarPorId", new { id = msDTO.Id }, msDTO);
+            } catch (DatosInvalidosException e) {
+                return BadRequest(e.Message);
             } catch (DuplicadoException e) {
                 return BadRequest(e.Message);
             } catch (Exception e) {

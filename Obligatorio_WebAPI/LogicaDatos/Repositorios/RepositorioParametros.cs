@@ -23,7 +23,7 @@ namespace LogicaDatos.Repositorios {
         }
 
         public decimal ObtenerLimiteTopeDeMovimientos() {
-            throw new NotImplementedException();
+            return Contexto.Parametros.Where(p => p.Nombre == "TopeDeMovimientos").OrderByDescending(p => p.Id).First().Valor;
         }
     }
 }

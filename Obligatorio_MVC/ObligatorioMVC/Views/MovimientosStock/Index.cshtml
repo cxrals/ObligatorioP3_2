@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DataTransferObjects.MovimientoStockIndexDTO>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Movimientos de Stock";
 }
 
 <div class="text-center">
@@ -10,17 +10,21 @@
 
 <span class="alert-danger">@ViewBag.ErrorMsg</span>
 
-<div>
-    <a asp-action="Create">Crear Movimiento</a>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Crear Movimiento</a>
 </div>
-<div>
-    <a asp-action="BuscarPorFecha">Buscar Por Fecha</a>
-</div>
-<div>
-    <a asp-action="ObtenerResumen">Buscar Movimientos por Año</a>
-</div>
-<div>
-    <a asp-action="BuscarPorArticuloYTipo">Buscar Por Artículo y Tipo de Movimiento</a>
+
+<div class="row justify-content-between align-items-center mb-3">
+    <div class="col-md-auto">
+        <a asp-action="BuscarPorFecha" class="btn btn-outline-primary">Buscar Por Fecha</a>
+    </div>
+    <div class="col-md-auto">
+        <a asp-action="BuscarPorArticuloYTipo" class="btn btn-outline-primary">Buscar Por Artículo y Tipo de Movimiento</a>
+    </div>
+    <div class="col-md-auto">
+        <a asp-action="ObtenerResumen" class="btn btn-outline-primary">Resumen de Movimientos</a>
+    </div>
 </div>
 
 <table class="table">
