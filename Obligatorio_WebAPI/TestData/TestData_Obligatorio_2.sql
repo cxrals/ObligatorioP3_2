@@ -147,4 +147,14 @@ insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, C
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 15);
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 30);
 
-
+-- test resumen
+SELECT 
+    YEAR(Fecha) AS Anio,
+    TipoMovimientoId,
+    SUM(Cantidad) AS CantidadTotalPorTipo,
+    (SELECT SUM(Cantidad) 
+     FROM MovimientosDeStock 
+     WHERE YEAR(Fecha) = YEAR(MS.Fecha)) AS CantidadTotalPorAnio
+FROM MovimientosDeStock MS
+GROUP BY YEAR(Fecha), TipoMovimientoId
+ORDER BY Anio, TipoMovimientoId;
