@@ -20,6 +20,7 @@ namespace LogicaDatos.Repositorios {
         public void Create(MovimientoStock obj) {
             obj.EsValido();
             Contexto.Entry(obj.Articulo).State = EntityState.Unchanged;
+            Contexto.Entry(obj.TipoMovimiento).State = EntityState.Unchanged;
             Contexto.MovimientosStock.Add(obj);
             Contexto.SaveChanges();
         }
@@ -85,6 +86,10 @@ namespace LogicaDatos.Repositorios {
             return Contexto.MovimientosStock
             .Where(ms => ms.Fecha >= desde && ms.Fecha <= hasta)
             .Count();
+        }
+
+        public bool TieneTipoMovimiento(int idTipoMovimiento) {
+            return Contexto.MovimientosStock.Any(ms => ms.TipoMovimiento.Id == idTipoMovimiento);
         }
     }
 }

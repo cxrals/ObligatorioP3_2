@@ -26,7 +26,6 @@ namespace LogicaDatos.Repositorios {
         }
 
         public void Delete(int id) {
-            //todo agregar chequeo de que el tipo no este siendo usado en ningun movimiento
             TipoMovimiento aBorrar = FindById(id);
             if (aBorrar != null) {
                 Contexto.TiposMovimientos.Remove(aBorrar);
@@ -45,7 +44,6 @@ namespace LogicaDatos.Repositorios {
         }
 
         public void Update(TipoMovimiento obj) {
-            //todo agregar chequeo de que el tipo no este siendo usado en ningun movimiento
             obj.EsValido();
             TipoMovimiento tm = Contexto.TiposMovimientos.Where(t => t.Nombre.ToLower() == obj.Nombre.ToLower()).SingleOrDefault();
 

@@ -79,6 +79,8 @@ namespace WebAPI.Controllers {
             try {
                 CUModificar.Modificar(tmDTO);
                 return Ok(tmDTO);
+            } catch (DatosInvalidosException e) {
+                return BadRequest(e.Message);
             } catch (DuplicadoException e) {
                 return BadRequest(e.Message);
             } catch (Exception e) {
@@ -100,6 +102,8 @@ namespace WebAPI.Controllers {
                 if (aBorrar == null) return NotFound("El tipo de movimiento no existe");
                 CUBaja.Baja(id);
                 return NoContent();
+            } catch (DatosInvalidosException e) {
+                return BadRequest(e.Message);
             } catch (Exception e) {
                 return StatusCode(500, e.Message);
             }
