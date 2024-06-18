@@ -114,6 +114,8 @@ namespace WebAPI.Controllers {
             try {
                 List<MovimientoCantidadPorAnioYTipoDTO> movimientos = CUResumenMovimientos.ObtenerResumen();
                 return Ok(movimientos);
+            } catch (RegistroNoExisteException e) {
+                return NotFound(e.Message);
             } catch {
                 return StatusCode(500, "Ocurrió un error inesperado en el servidor. Reintente más tarde.");
             }
