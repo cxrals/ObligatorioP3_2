@@ -61,6 +61,7 @@ namespace WebAPI.Controllers {
 
         // POST api/<MovimientosStockController>
         [HttpPost]
+        [Authorize(Roles = "Encargado")]
         public IActionResult Post([FromBody] MovimientoStockDTO msDTO) {
             if (msDTO == null) return BadRequest("Faltan datos requeridos para el alta");
             if (msDTO.ArticuloId <= 0) return BadRequest("El artículo es requerido para el alta");
@@ -97,6 +98,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet("MovimientosPorArticuloYTipo/{articuloId}/{tipoMovimiento}/{page}")]
+        [Authorize(Roles = "Encargado")]
         public IActionResult MovimientosPorArticuloYTipo(int articuloId, string tipoMovimiento, int page) {
             if (articuloId <= 0 || String.IsNullOrEmpty(tipoMovimiento)) return BadRequest("Artículo y tipo de movimiento son requeridos.");
             try {
@@ -112,6 +114,7 @@ namespace WebAPI.Controllers {
         //----------------------------- RESUMEN ------------------------------------
         //--------------------------------------------------------------------------
         [HttpGet("ResumenMovimientos/")]
+        [Authorize(Roles = "Encargado")]
         public IActionResult ResumenMovimientos() {
             try {
                 List<MovimientoCantidadPorAnioYTipoDTO> movimientos = CUResumenMovimientos.ObtenerResumen();
