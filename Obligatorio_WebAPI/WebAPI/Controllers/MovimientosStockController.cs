@@ -2,6 +2,7 @@
 using LogicaAplicacion.InterfacesCasosUso;
 using LogicaNegocio.Dominio;
 using LogicaNegocio.Excepciones;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -80,6 +81,7 @@ namespace WebAPI.Controllers {
         //----------------------------- BUSCAR -------------------------------------
         //--------------------------------------------------------------------------
         [HttpGet("MovimientosPorFecha/{desde}/{hasta}/{page}")]
+        [Authorize(Roles ="Encargado")]
         public IActionResult MovimientosPorFecha(string desde, string hasta, int page) {
             DateTime fechaDesde = DateTime.Parse(desde);
             DateTime fechaHasta = DateTime.Parse(hasta);
