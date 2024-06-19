@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataTransferObjects.MovimientoCantidadPorAnioYTipoDTO>
+﻿@model IEnumerable<DataTransferObjects.MovimientoStockResumenDTO>
 
 @{
     ViewData["Title"] = "Movimientos de Stock por Año";
@@ -11,39 +11,25 @@
 <span class="alert-danger">@ViewBag.ErrorMsg</span>
 
 <hr />
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Anio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoMovimiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cantidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadTotalAnio)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Anio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoMovimiento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cantidad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CantidadTotalAnio)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+@foreach (var item in Model) {
+    <div class="card col-md-4">
+        <div class="card-header">
+            <b>
+                Año: @Html.DisplayFor(modelItem => item.Anio)
+            </b>
+        </div>
+        <ul class="list-group list-group-flush">
+            @foreach (var tm in item.TipoCantidad) {
+                <li class="list-group-item">@Html.DisplayFor(t => tm)</li>        
+            }
+        </ul>
+        <div class="card-footer">
+            <b>
+                Total año: @Html.DisplayFor(modelItem => item.CantidadTotalAnio)
+            </b>
+        </div>
+    </div>
+}
+
+

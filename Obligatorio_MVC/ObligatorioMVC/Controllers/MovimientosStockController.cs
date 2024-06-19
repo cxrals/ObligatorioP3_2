@@ -187,6 +187,7 @@ namespace ObligatorioMVC.Controllers {
         [Privado(TipoUsuarios = "Encargado")]
         public ActionResult ObtenerResumen() {
             List<MovimientoCantidadPorAnioYTipoDTO> movimientosDeStock = new List<MovimientoCantidadPorAnioYTipoDTO>();
+            List<MovimientoStockResumenDTO> resumenMS = new List<MovimientoStockResumenDTO>();
 
             try {
                 HttpClient client = new HttpClient();
@@ -203,6 +204,15 @@ namespace ObligatorioMVC.Controllers {
 
                 if (respuesta.IsSuccessStatusCode) {
                     movimientosDeStock = JsonConvert.DeserializeObject<List<MovimientoCantidadPorAnioYTipoDTO>>(body);
+
+                    resumenMS = movimientosDeStock
+                    .GroupBy(mse => mse.Anio)
+                    .Select(mse => new MovimientoStockResumenDTO {
+                        Anio = mse.Key,
+                        TipoCantidad = mse.Select(item => $"Tipo: {item.TipoMovimiento} - Cantidad: {item.Cantidad}").ToList(),
+                        CantidadTotalAnio = mse.Sum(item => item.Cantidad)
+                    })
+                    .ToList();
                 } else {
                     ViewBag.ErrorMsg = respuesta.Content.ReadAsStringAsync().Result;
                 }
@@ -210,7 +220,7 @@ namespace ObligatorioMVC.Controllers {
                 ViewBag.ErrorMsg = e.Message;
             }
 
-            return View(movimientosDeStock);
+            return View(resumenMS);
         }
 
         //--------------------------------------------------------------------------
