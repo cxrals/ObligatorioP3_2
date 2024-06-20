@@ -12,8 +12,8 @@ namespace LogicaNegocio.Dominio {
         public int Cantidad { get; set; }
 
         public void EsValido() {
-            if (Cantidad < 0) {
-                throw new DatosInvalidosException("La cantidad no puede ser negativa.");
+            if (Cantidad <= 0) {
+                throw new DatosInvalidosException("La cantidad no puede ser negativa o 0.");
             }
         }
     }

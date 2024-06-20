@@ -32,7 +32,6 @@ namespace LogicaNegocio.Dominio {
             if(!ValidarContraseña(Contraseña)) {
                 throw new DatosInvalidosException("La contraseña debe tener un mínimo de 6 caracteres, al menos una mayuscula y una minuscula y un caracter especial (punto, coma, punto y coma o signo de admiración)");
             }
-            //TODO: VO para nombre y apellido?
         }
 
         private bool ValidarContraseña(String contraseña) {

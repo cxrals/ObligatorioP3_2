@@ -59,6 +59,8 @@ namespace WebAPI.Controllers {
             try {
                 CUAlta.Alta(tmDTO);
                 return CreatedAtRoute("BuscarPorIdTM", new { id = tmDTO.Id }, tmDTO);
+            } catch (DatosInvalidosException e) {
+                return BadRequest(e.Message);
             } catch (DuplicadoException e) {
                 return BadRequest(e.Message);
             } catch (Exception e) {
@@ -102,6 +104,8 @@ namespace WebAPI.Controllers {
                 if (aBorrar == null) return NotFound("El tipo de movimiento no existe");
                 CUBaja.Baja(id);
                 return NoContent();
+            } catch (RegistroNoExisteException e) {
+                return BadRequest(e.Message);
             } catch (DatosInvalidosException e) {
                 return BadRequest(e.Message);
             } catch (Exception e) {

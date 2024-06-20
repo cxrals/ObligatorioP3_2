@@ -41,7 +41,7 @@ namespace ObligatorioMVC.Controllers {
                         HttpContext.Session.SetString("Rol", usuarioAutenticado.Tipo);
                         HttpContext.Session.SetString("Token", usuarioAutenticado.Token);
 
-                        return RedirectToAction("Index", "MovimientosStock");
+                        return RedirectToAction("Index", "Home");
                     } else {
                         ViewBag.ErrorMsg = "Credenciales incorrectas";
                     }
