@@ -42,32 +42,5 @@ namespace WebAPI.Controllers {
                 return StatusCode(500, "Ocurrió un error inesperado en el servidor. Reintente más tarde.");
             }
         }
-
-        //    // GET: api/<UsuariosController>
-        //    [HttpGet]
-        //    public IEnumerable<string> Get() {
-        //        return new string[] { "value1", "value2" };
-        //    }
-
-        //    // GET api/<UsuariosController>/5
-        //    [HttpGet("{id}")]
-        //    public string Get(int id) {
-        //        return "value";
-        //    }
-
-        //    // POST api/<UsuariosController>
-        //    [HttpPost]
-        //    public void Post([FromBody] string value) {
-        //    }
-
-        //    // PUT api/<UsuariosController>/5
-        //    [HttpPut("{id}")]
-        //    public void Put(int id, [FromBody] string value) {
-        //    }
-
-        //    // DELETE api/<UsuariosController>/5
-        //    [HttpDelete("{id}")]
-        //    public void Delete(int id) {
-        //    }
     }
 }

@@ -9,7 +9,6 @@ namespace DataTransferObjects {
         public int Cantidad {  get; set; }
         public int Anio { get; set; }
         public string TipoMovimiento { get; set; }
-        public int CantidadTotalAnio { get; set; }
 
     }
 }

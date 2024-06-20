@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.InterfacesDominio;
+﻿using LogicaNegocio.Excepciones;
+using LogicaNegocio.InterfacesDominio;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace LogicaNegocio.Dominio {
         public Tipo TipoAccion { get; set; }
 
         public void EsValido() {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Nombre)) {
+                throw new DatosInvalidosException("El nombre es requerido");
+            }
         }
     }
 
