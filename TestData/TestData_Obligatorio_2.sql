@@ -1,4 +1,4 @@
-use Obligatorio_P3Obligatorio_P3;
+use Obligatorio_P3;
 SET DATEFORMAT DMY;
 
 select * from Usuarios
@@ -134,10 +134,6 @@ insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, C
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('27-06-2024', 14, 7, 8, 9);
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('27-06-2024', 15, 8, 9, 5);
 
-
-select * from  __EFMigrationsHistory
-DELETE FROM __EFMigrationsHistory WHERE MigrationId='20240516201117_init'
-
 -- test paginacion
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 5);
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 10);
@@ -148,6 +144,10 @@ insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, C
 insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2024', 1, 3, 1, 30);
 
 -- test resumen
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2023', 1, 3, 1, 5);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('16-05-2023', 1, 3, 1, 10);
+insert into MovimientosDeStock(Fecha, ArticuloId, UsuarioId, TipoMovimientoId, Cantidad) values ('01-06-2023', 3, 5, 2, 10);
+
 SELECT 
     YEAR(Fecha) AS Anio,
     TipoMovimientoId,
@@ -158,3 +158,7 @@ SELECT
 FROM MovimientosDeStock MS
 GROUP BY YEAR(Fecha), TipoMovimientoId
 ORDER BY Anio, TipoMovimientoId;
+
+
+select * from  __EFMigrationsHistory
+DELETE FROM __EFMigrationsHistory WHERE MigrationId='20240516201117_init'
